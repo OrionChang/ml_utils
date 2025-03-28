@@ -22,6 +22,8 @@ setup(
         "numpy>=1.20.0",
         "matplotlib>=3.4.0",
         "torchinfo>=1.7.0",
+        "tensorboard>=2.19.0",
+        
     ],
     extras_require={
         "dev": [
