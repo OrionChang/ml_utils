@@ -136,7 +136,7 @@ class TestDataUtils(unittest.TestCase):
         
         # Define transformation function that modifies both x and y
         def transform_func(x, y):
-            return x * 2, y + 1
+            return torch.mul(x, 2), torch.add(y, 1)
         
         # Create a wrapped dataloader
         wrapped_dl = _WrappedDataLoader(dl, transform_func)
@@ -151,8 +151,10 @@ class TestDataUtils(unittest.TestCase):
         
         for transformed_x, transformed_y in wrapped_dl:
             # Check that our transformation was applied
-            self.assertTrue(torch.allclose(transformed_x, orig_x * 2))
-            self.assertTrue(torch.allclose(transformed_y, orig_y + 1))
+            expected_x = torch.mul(orig_x, 2)
+            expected_y = torch.add(orig_y, 1)
+            self.assertTrue(torch.equal(transformed_x, expected_x))
+            self.assertTrue(torch.equal(transformed_y, expected_y))
             break
 
 

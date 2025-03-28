@@ -21,4 +21,4 @@ from .data_utils import get_dataloaders, get_preprocessed_dataloaders
 # Add any other functions you want to expose directly
 # from .other_module import other_function
 
-__all__ = ['get_dataloaders', 'get_preprocessed_dataloaders'] 
+__all__ += ['get_dataloaders', 'get_preprocessed_dataloaders'] 

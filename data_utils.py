@@ -38,13 +38,38 @@ def get_dataloaders(
     )
 
 
+class _WrappedDataLoader:
+    """
+    A wrapper around DataLoader to apply a preprocessing function to each batch.
+    """
+    
+    def __init__(self, dl: DataLoader, func: Callable):
+        """
+        Initialize the wrapped DataLoader.
+        
+        Args:
+            dl: DataLoader to wrap
+            func: Function to apply to each batch
+        """
+        self.dl = dl
+        self.func = func
+
+    def __len__(self) -> int:
+        """Return the number of batches in the DataLoader."""
+        return len(self.dl)
+
+    def __iter__(self):
+        """Iterate through batches, applying the preprocessing function to each."""
+        for batch in self.dl:
+            yield self.func(*batch)
+
 def get_preprocessed_dataloaders(
     train_ds: TensorDataset,
     valid_ds: TensorDataset,
     preprocess: Callable[[Tensor, Tensor], Tuple[Tensor, Tensor]],
     bs: int = 64,
     shuffle: bool = True
-) -> Tuple[DataLoader, DataLoader]:
+) -> Tuple[_WrappedDataLoader, _WrappedDataLoader]:
     """
     Create DataLoader objects with preprocessing applied to each batch.
     
@@ -71,29 +96,3 @@ def get_preprocessed_dataloaders(
     train_dl = _WrappedDataLoader(train_dl, preprocess)
     valid_dl = _WrappedDataLoader(valid_dl, preprocess)
     return train_dl, valid_dl
-
-
-class _WrappedDataLoader:
-    """
-    A wrapper around DataLoader to apply a preprocessing function to each batch.
-    """
-    
-    def __init__(self, dl: DataLoader, func: Callable):
-        """
-        Initialize the wrapped DataLoader.
-        
-        Args:
-            dl: DataLoader to wrap
-            func: Function to apply to each batch
-        """
-        self.dl = dl
-        self.func = func
-
-    def __len__(self) -> int:
-        """Return the number of batches in the DataLoader."""
-        return len(self.dl)
-
-    def __iter__(self):
-        """Iterate through batches, applying the preprocessing function to each."""
-        for batch in self.dl:
-            yield self.func(*batch)
