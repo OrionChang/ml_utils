@@ -1,0 +1,21 @@
+# Coverage files
+.coverage
+.coverage.*
+coverage_html/
+htmlcov/
+coverage.xml
+
+# Cache directories
+__pycache__/
+.pytest_cache/
+
+# Report files
+*.html
+*.css
+*.js
+*.png
+*.json
+
+# Except our actual test files
+!test_*.py
+!run_*.py 
