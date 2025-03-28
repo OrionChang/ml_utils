@@ -32,3 +32,6 @@ __all__ += ['get_dataloaders', 'get_preprocessed_dataloaders']
 from .visualize_utils import get_tensorboard_writer, add_images_to_tensorboard, matplotlib_imshow, log_model_graph, log_scalars, log_scalar, log_embedding, log_histograms, close_writer
 
 __all__ += ['get_tensorboard_writer', 'add_images_to_tensorboard', 'matplotlib_imshow', 'log_model_graph', 'log_scalars', 'log_scalar', 'log_embedding', 'log_histograms', 'close_writer']
+
+from .torch_utils import use_cuda
+__all__ += ['use_cuda']
