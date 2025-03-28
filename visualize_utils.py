@@ -4,28 +4,31 @@ import numpy as np
 import matplotlib.pyplot as plt
 from torch.utils.tensorboard.writer import SummaryWriter
 
-def get_tensorboard_writer(log_dir: str = 'experiment') -> SummaryWriter:
+def get_tensorboard_writer(log_dir = None) -> SummaryWriter:
     """
     Create and return a TensorBoard SummaryWriter.
     
     Args:
         log_dir (str): Directory where TensorBoard logs will be written.
-            Default is 'experiment'. Will be created under 'runs/' directory.
+            Default is None, which uses TensorBoard's default 'runs/CURRENT_DATETIME_HOSTNAME'.
     
     Returns:
-        SummaryWriter: TensorBoard writer object that writes logs to 'runs/{log_dir}'.
+        SummaryWriter: TensorBoard writer object. If log_dir is provided, writes logs to 'runs/{log_dir}'.
     """
+    full_log_dir = None
 
-    # Parent directory for all TensorBoard logs
-    parent_dir = "runs/"  
+    if log_dir is not None:
+        # Parent directory for all TensorBoard logs
+        parent_dir = "runs/"  
 
-    log_dir = log_dir.replace('\\', '/')
-    # Strip leading slash if present
-    if log_dir.startswith('/'):
-        log_dir = log_dir[1:]
-    
-    # Combine parent directory with log directory
-    full_log_dir = parent_dir + log_dir
+        log_dir = log_dir.replace('\\', '/')
+        # Strip leading slash if present
+        if log_dir.startswith('/'):
+            log_dir = log_dir[1:]
+        
+        # Combine parent directory with log directory
+        full_log_dir = parent_dir + log_dir
+        
     return SummaryWriter(full_log_dir)
 
 def add_images_to_tensorboard(writer: SummaryWriter, images: torch.Tensor, title: str = 'Images'):
