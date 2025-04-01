@@ -143,3 +143,61 @@ def close_writer(writer: SummaryWriter):
     """
     writer.flush()
     writer.close()
+
+
+def display_images_from_paths(image_paths, titles=None, figsize=(16, 8)):
+    """
+    Display multiple images in a grid layout
+    
+    Args:
+        image_paths: List of paths to images
+        titles: List of titles for each image (optional)
+        figsize: Tuple for figure size (width, height)
+    """
+    import matplotlib.pyplot as plt
+    from torchvision.io import read_image
+    
+    n_images = len(image_paths)
+    # Calculate grid dimensions (trying to keep it as square as possible)
+    n_cols = int(np.ceil(np.sqrt(n_images)))
+    n_rows = int(np.ceil(n_images / n_cols))
+    
+    plt.figure(figsize=figsize)
+    
+    for idx, path in enumerate(image_paths):
+        # Read image
+        img = read_image(path)
+        
+        # Check dimensions and permute if necessary
+        if img.ndim == 3 and img.shape[0] in [1, 3, 4]:  # If channel-first format
+            img = img.permute(1, 2, 0)
+            
+        plt.subplot(n_rows, n_cols, idx + 1)
+        if titles and idx < len(titles):
+            plt.title(titles[idx])
+        plt.imshow(img)
+        plt.axis('off')
+    
+    plt.tight_layout()
+    plt.show()
+
+
+def display_model_architecture(model: torch.nn.Module, input_size=(1, 3, 224, 224)):
+    """
+    Display the architecture of a PyTorch model.
+    
+    Args:
+        model (torch.nn.Module): The model to display.  
+        input_size (tuple): The input size of the model.
+    """
+    from torchinfo import summary
+    # Display detailed summary with input size (1, 3, 224, 224)
+    # This shows parameters, output shape, and memory usage for each layer
+    summary(
+        model, 
+        input_size=input_size,  # Batch size of 1 with 3 channels and 224x224 resolution
+        verbose=2,                     # Detailed information
+        col_names=["input_size", "output_size", "num_params", "kernel_size", "mult_adds"],
+        col_width=20,
+        row_settings=["var_names"]
+    )
