@@ -39,3 +39,6 @@ __all__ += ['get_tensorboard_writer', 'add_images_to_tensorboard', 'matplotlib_i
 
 from .torch_utils import use_cuda
 __all__ += ['use_cuda']
+
+from .io_utils import set_working_dir
+__all__ += ['set_working_dir']
