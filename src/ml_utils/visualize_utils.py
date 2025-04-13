@@ -2,6 +2,7 @@ import torch
 import torchvision
 import numpy as np
 import matplotlib.pyplot as plt
+from torchvision.io import read_image
 from torch.utils.tensorboard.writer import SummaryWriter
 
 def get_tensorboard_writer(log_dir = None) -> SummaryWriter:
@@ -154,8 +155,7 @@ def display_images_from_paths(image_paths, titles=None, figsize=(16, 8)):
         titles: List of titles for each image (optional)
         figsize: Tuple for figure size (width, height)
     """
-    import matplotlib.pyplot as plt
-    from torchvision.io import read_image
+
     
     n_images = len(image_paths)
     # Calculate grid dimensions (trying to keep it as square as possible)
