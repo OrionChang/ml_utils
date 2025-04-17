@@ -19,11 +19,12 @@ classifiers = [
 ]
 requires-python = ">=3.7"
 dependencies = [
-    "torch>=1.9.0",
+    "torch>=2.6.0+cu126",
     "numpy>=1.20.0",
     "matplotlib>=3.4.0",
     "torchinfo>=1.7.0",
     "tensorboard>=2.19.0",
+    "torchvision>=0.21.0"
 ]
 
 
